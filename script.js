@@ -1,5 +1,40 @@
 // Scientific Psychological Log Journal - JavaScript
 document.addEventListener('DOMContentLoaded', function() {
+    // Security: Input sanitization function
+    function sanitizeHTML(str) {
+        const temp = document.createElement('div');
+        temp.textContent = str;
+        return temp.innerHTML;
+    }
+
+    // Language text mappings
+    const translations = {
+        en: {
+            journalPlaceholder: "Describe your thoughts, feelings, and reactions...",
+            triggerPlaceholder: "What happened?",
+            thoughtsPlaceholder: "What thoughts went through your mind?",
+            saveJournal: "Log Entry",
+            generateReport: "Generate Report",
+            saveReport: "Save Report",
+            loadReport: "Load Report",
+            errorLoadingReport: "Error loading report: Invalid file format",
+            noEntriesToReport: "No journal entries found to generate a report.",
+            reportGenerated: "Report generated successfully!"
+        },
+        de: {
+            journalPlaceholder: "Beschreibe deine Gedanken, Gefühle und Reaktionen...",
+            triggerPlaceholder: "Was ist passiert?",
+            thoughtsPlaceholder: "Welche Gedanken gingen dir durch den Kopf?",
+            saveJournal: "Eintrag protokollieren",
+            generateReport: "Bericht erstellen",
+            saveReport: "Bericht speichern",
+            loadReport: "Bericht laden",
+            errorLoadingReport: "Fehler beim Laden des Berichts: Ungültiges Dateiformat",
+            noEntriesToReport: "Keine Tagebucheinträge gefunden, um einen Bericht zu erstellen.",
+            reportGenerated: "Bericht erfolgreich erstellt!"
+        }
+    };
+
     // Language switching functionality
     const langEnBtn = document.getElementById('lang-en');
     const langDeBtn = document.getElementById('lang-de');
@@ -159,19 +194,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Update journal placeholder text
-        const journalPlaceholderEn = document.querySelector('#journal-entry[data-lang="en"]');
-        const journalPlaceholderDe = document.querySelector('#journal-entry[data-lang="de"]');
+        // Update dynamic text content and placeholders
+        const t = translations[lang];
 
-        if (lang === 'en') {
-            journalEntry.placeholder = journalPlaceholderEn.placeholder;
-            triggerInput.placeholder = 'What happened?';
-            thoughtsInput.placeholder = 'What thoughts went through your mind?';
-        } else {
-            journalEntry.placeholder = journalPlaceholderDe.placeholder;
-            triggerInput.placeholder = 'Was ist passiert?';
-            thoughtsInput.placeholder = 'Welche Gedanken gingen dir durch den Kopf?';
-        }
+        journalEntry.placeholder = t.journalPlaceholder;
+        triggerInput.placeholder = t.triggerPlaceholder;
+        thoughtsInput.placeholder = t.thoughtsPlaceholder;
+
+        // Update button texts
+        const saveJournalBtn = document.getElementById('save-journal');
+        const generateReportBtn = document.getElementById('generate-report');
+        const saveReportBtn = document.getElementById('save-report');
+        const loadReportBtn = document.getElementById('load-report-btn');
+
+        if (saveJournalBtn) saveJournalBtn.textContent = t.saveJournal;
+        if (generateReportBtn) generateReportBtn.textContent = t.generateReport;
+        if (saveReportBtn) saveReportBtn.textContent = t.saveReport;
+        if (loadReportBtn) loadReportBtn.textContent = t.loadReport;
     }
 
     // Load exercise content based on type
@@ -1498,25 +1537,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Save journal entry to localStorage
     function saveJournalEntry(text) {
-        const entry = {
-            date: new Date().toLocaleString(),
-            content: text,
-            mood: parseInt(moodRating.value),
-            emotion: emotionSelect.value,
-            trigger: triggerInput.value,
-            thoughts: thoughtsInput.value,
-            coping: copingStrategy.value,
-            anxiety: parseInt(anxietyRating.value),
-            depression: parseInt(depressionRating.value),
-            stress: parseInt(stressRating.value)
-        };
+        try {
+            // Sanitize all user inputs
+            const entry = {
+                date: new Date().toLocaleString(),
+                content: sanitizeHTML(text),
+                mood: parseInt(moodRating.value) || 0,
+                emotion: sanitizeHTML(emotionSelect.value),
+                trigger: sanitizeHTML(triggerInput.value),
+                thoughts: sanitizeHTML(thoughtsInput.value),
+                coping: sanitizeHTML(copingStrategy.value),
+                anxiety: parseInt(anxietyRating.value) || 0,
+                depression: parseInt(depressionRating.value) || 0,
+                stress: parseInt(stressRating.value) || 0
+            };
 
-        let entries = JSON.parse(localStorage.getItem('scientificJournal')) || [];
-        entries.push(entry);
-        localStorage.setItem('scientificJournal', JSON.stringify(entries));
+            let entries = JSON.parse(localStorage.getItem('scientificJournal')) || [];
+            entries.push(entry);
+            localStorage.setItem('scientificJournal', JSON.stringify(entries));
 
-        // Update the journal display
-        displayJournalEntries();
+            // Update the journal display
+            displayJournalEntries();
+        } catch (error) {
+            console.error('Error saving journal entry:', error);
+            alert(currentLang === 'en'
+                ? 'Error saving journal entry. Please try again.'
+                : 'Fehler beim Speichern des Eintrags. Bitte versuche es erneut.');
+        }
 
         // Show confirmation message in current language
         if (currentLang === 'en') {
