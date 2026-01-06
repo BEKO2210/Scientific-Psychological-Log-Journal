@@ -13,6 +13,33 @@ body {
     min-height: 100vh;
 }
 
+/* Accessibility: Focus styles */
+*:focus {
+    outline: 2px solid #4a6fa5;
+    outline-offset: 2px;
+}
+
+/* Skip to main content link for screen readers */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #4a6fa5;
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Smooth transitions */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
 header {
     background: linear-gradient(90deg, #4a6fa5 0%, #6a93cb 100%);
     color: white;
@@ -155,11 +182,37 @@ h2 {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.start-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.start-btn:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .start-btn:hover {
     background: #3a5a80;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 111, 165, 0.3);
+}
+
+.start-btn:active {
+    transform: translateY(0);
 }
 
 /* Journal Section Styles */
@@ -190,9 +243,20 @@ h2 {
     flex: 1;
     min-width: 200px;
     padding: 0.5rem;
-    border: 1px solid #d0e0f0;
+    border: 2px solid #d0e0f0;
     border-radius: 4px;
     background: white;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.journal-controls select:focus, .journal-controls input[type="text"]:focus {
+    border-color: #4a6fa5;
+    box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+}
+
+.journal-controls input[type="text"]:hover,
+.journal-controls select:hover {
+    border-color: #6a93cb;
 }
 
 #mood-value, #anxiety-value, #depression-value, #stress-value {
@@ -206,13 +270,23 @@ h2 {
     width: 100%;
     height: 150px;
     padding: 1rem;
-    border: 1px solid #d0e0f0;
+    border: 2px solid #d0e0f0;
     border-radius: 5px;
     margin: 1rem 0;
     font-family: inherit;
     resize: vertical;
     background: white;
     color: #2c3e50;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#journal-entry:focus {
+    border-color: #4a6fa5;
+    box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+}
+
+#journal-entry:hover {
+    border-color: #6a93cb;
 }
 
 #save-journal {
@@ -240,6 +314,27 @@ h2 {
     margin: 1rem 0;
     border-radius: 0 5px 5px 0;
     color: #2c3e50;
+    animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .journal-entry-header {
@@ -414,6 +509,7 @@ h2 {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease;
 }
 
 .modal-content {
@@ -426,6 +522,33 @@ h2 {
     position: relative;
     max-height: 80vh;
     overflow-y: auto;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading spinner */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(74, 111, 165, 0.3);
+    border-radius: 50%;
+    border-top-color: #4a6fa5;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 .close {

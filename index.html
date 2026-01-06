@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Evidence-based psychological self-assessment and tracking tool">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
     <title>Scientific Psychological Log Journal | Wissenschaftliches Psychologisches Tagebuch</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <div class="language-switcher">
-            <button id="lang-en" class="lang-btn active">EN</button>
-            <button id="lang-de" class="lang-btn">DE</button>
+            <button id="lang-en" class="lang-btn active" aria-label="Switch to English">EN</button>
+            <button id="lang-de" class="lang-btn" aria-label="Wechsel zu Deutsch">DE</button>
         </div>
         <h1 data-lang="en">Scientific Psychological Log Journal</h1>
         <h1 data-lang="de" class="hidden">Wissenschaftliches Psychologisches Tagebuch</h1>
@@ -18,7 +20,7 @@
         <p data-lang="de" class="hidden">Evidenzbasierte psychologische Erfassung und Selbstbewertungsinstrumente</p>
     </header>
 
-    <nav>
+    <nav role="navigation" aria-label="Main navigation">
         <ul>
             <li><a href="#about" data-lang="en">About</a><a href="#about" data-lang="de" class="hidden">Über</a></li>
             <li><a href="#experiments" data-lang="en">Evidence-Based Exercises</a><a href="#experiments" data-lang="de" class="hidden">Evidenzbasierte Übungen</a></li>
@@ -28,7 +30,7 @@
         </ul>
     </nav>
 
-    <main>
+    <main role="main">
         <section id="about">
             <h2 data-lang="en">Evidence-Based Psychological Self-Assessment</h2>
             <h2 data-lang="de" class="hidden">Evidenzbasierte psychologische Selbstbewertung</h2>
@@ -184,15 +186,13 @@
             <div class="journal-controls">
                 <label for="trigger-input" data-lang="en">Trigger/Event:</label>
                 <label for="trigger-input" data-lang="de" class="hidden">Auslöser/Ereignis:</label>
-                <input type="text" id="trigger-input" placeholder="What happened?" data-lang="en">
-                <input type="text" id="trigger-input" placeholder="Was ist passiert?" data-lang="de" class="hidden">
+                <input type="text" id="trigger-input" placeholder="What happened?">
             </div>
-            
+
             <div class="journal-controls">
                 <label for="thoughts-input" data-lang="en">Automatic Thoughts:</label>
                 <label for="thoughts-input" data-lang="de" class="hidden">Automatische Gedanken:</label>
-                <input type="text" id="thoughts-input" placeholder="What thoughts went through your mind?" data-lang="en">
-                <input type="text" id="thoughts-input" placeholder="Welche Gedanken gingen dir durch den Kopf?" data-lang="de" class="hidden">
+                <input type="text" id="thoughts-input" placeholder="What thoughts went through your mind?">
             </div>
             
             <div class="journal-controls">
@@ -220,10 +220,8 @@
                 </select>
             </div>
             
-            <textarea id="journal-entry" placeholder="Describe your thoughts, feelings, and reactions..." data-lang="en"></textarea>
-            <textarea id="journal-entry" placeholder="Beschreibe deine Gedanken, Gefühle und Reaktionen..." data-lang="de" class="hidden"></textarea>
-            <button id="save-journal" data-lang="en">Log Entry</button>
-            <button id="save-journal" data-lang="de" class="hidden">Eintrag protokollieren</button>
+            <textarea id="journal-entry" placeholder="Describe your thoughts, feelings, and reactions..." aria-label="Journal entry text"></textarea>
+            <button id="save-journal" aria-label="Save journal entry">Log Entry</button>
             <div id="journal-entries"></div>
         </section>
 
@@ -234,13 +232,10 @@
             <p data-lang="de" class="hidden">Erstelle, speichere und überprüfe umfassende psychologische Berichte mit validierten Bewertungsdaten</p>
             
             <div class="report-controls">
-                <button id="generate-report" data-lang="en">Generate Report</button>
-                <button id="generate-report" data-lang="de" class="hidden">Bericht erstellen</button>
-                <button id="save-report" data-lang="en">Save Report</button>
-                <button id="save-report" data-lang="de" class="hidden">Bericht speichern</button>
-                <input type="file" id="load-report" accept=".json" style="display: none;">
-                <button id="load-report-btn" data-lang="en">Load Report</button>
-                <button id="load-report-btn" data-lang="de" class="hidden">Bericht laden</button>
+                <button id="generate-report">Generate Report</button>
+                <button id="save-report">Save Report</button>
+                <input type="file" id="load-report" accept=".json" style="display: none;" aria-label="Load report file">
+                <button id="load-report-btn">Load Report</button>
             </div>
             
             <div id="report-container">
