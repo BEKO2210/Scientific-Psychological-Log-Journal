@@ -251,12 +251,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update language in the modal content
         updateModalLanguage();
 
-        // Add event listeners for exercise buttons
-        const finishBtn = document.getElementById('finish-exercise');
+        // Add event listeners for ALL exercise buttons (handles multiple IDs)
+        const finishBtns = exerciseContainer.querySelectorAll('#finish-exercise');
 
-        if (finishBtn) {
-            finishBtn.addEventListener('click', finishExercise);
-        }
+        finishBtns.forEach(btn => {
+            btn.addEventListener('click', finishExercise);
+        });
     }
 
     // Update language in modal content
@@ -1497,19 +1497,28 @@ document.addEventListener('DOMContentLoaded', function() {
     function finishExercise() {
         // Collect responses from the exercise
         const responses = [];
-        const responseElements = document.querySelectorAll('.exercise-response:not(.hidden)');
+        const responseElements = exerciseContainer.querySelectorAll('.exercise-response:not(.hidden)');
 
         responseElements.forEach((element, index) => {
-            if (element.value) {
+            if (element.value.trim()) {
                 responses.push({
                     question: index + 1,
-                    response: element.value
+                    response: sanitizeHTML(element.value.trim())
                 });
             }
         });
 
+        // Check if any responses were provided
+        if (responses.length === 0) {
+            alert(currentLang === 'en'
+                ? 'Please complete at least one question before finishing the exercise.'
+                : 'Bitte beantworte mindestens eine Frage, bevor du die Übung abschließt.');
+            return;
+        }
+
         // Save the exercise results to localStorage
-        const exerciseType = document.querySelector('.exercise-content h2:not(.hidden)').textContent;
+        const exerciseTypeElement = exerciseContainer.querySelector('h2:not(.hidden)');
+        const exerciseType = exerciseTypeElement ? exerciseTypeElement.textContent : 'Exercise';
         const exerciseResults = {
             type: exerciseType,
             date: new Date().toLocaleString(),
@@ -1558,18 +1567,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Update the journal display
             displayJournalEntries();
+
+            // Show confirmation message in current language
+            if (currentLang === 'en') {
+                alert('Scientific psychological log entry saved successfully!');
+            } else {
+                alert('Wissenschaftlicher psychologischer Tagebucheintrag erfolgreich gespeichert!');
+            }
         } catch (error) {
             console.error('Error saving journal entry:', error);
             alert(currentLang === 'en'
                 ? 'Error saving journal entry. Please try again.'
                 : 'Fehler beim Speichern des Eintrags. Bitte versuche es erneut.');
-        }
-
-        // Show confirmation message in current language
-        if (currentLang === 'en') {
-            alert('Scientific psychological log entry saved successfully!');
-        } else {
-            alert('Wissenschaftlicher psychologischer Tagebucheintrag erfolgreich gespeichert!');
+            return;
         }
     }
 
@@ -1588,7 +1598,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Display entries in reverse chronological order (newest first)
-        entries.reverse().forEach(entry => {
+        // Create a copy to avoid mutating the original array
+        [...entries].reverse().forEach(entry => {
             const entryElement = document.createElement('div');
             entryElement.className = 'journal-entry';
 

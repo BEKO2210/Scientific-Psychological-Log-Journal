@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page - Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background: #4a6fa5;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #3a5a80;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e6f0ff;
+            border-left: 4px solid #4a6fa5;
+        }
+        .error {
+            background: #ffe6e6;
+            border-left-color: #cc0000;
+        }
+        .success {
+            background: #e6ffe6;
+            border-left-color: #00cc00;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript Debug Test</h1>
+
+    <div class="test-section">
+        <h2>Test 1: Check if script.js loads</h2>
+        <button onclick="test1()">Run Test 1</button>
+        <div id="result1" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Test localStorage</h2>
+        <button onclick="test2()">Run Test 2</button>
+        <div id="result2" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: Test Journal Entry Save</h2>
+        <input type="text" id="testEntry" placeholder="Test entry" value="Test journal entry">
+        <button onclick="test3()">Run Test 3</button>
+        <div id="result3" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 4: Check Console Errors</h2>
+        <button onclick="test4()">Run Test 4</button>
+        <div id="result4" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Console Output</h2>
+        <div id="console" style="background: #000; color: #0f0; padding: 10px; font-family: monospace; max-height: 300px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        // Override console.log to capture output
+        const originalLog = console.log;
+        const originalError = console.error;
+        const consoleDiv = document.getElementById('console');
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            consoleDiv.innerHTML += '<div>LOG: ' + args.join(' ') + '</div>';
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            consoleDiv.innerHTML += '<div style="color: #f00;">ERROR: ' + args.join(' ') + '</div>';
+        };
+
+        function test1() {
+            const result = document.getElementById('result1');
+            try {
+                result.innerHTML = 'Script tag present: ' + (document.querySelector('script[src="script.js"]') !== null);
+                result.className = 'result success';
+            } catch (e) {
+                result.innerHTML = 'Error: ' + e.message;
+                result.className = 'result error';
+            }
+        }
+
+        function test2() {
+            const result = document.getElementById('result2');
+            try {
+                localStorage.setItem('test', 'value');
+                const value = localStorage.getItem('test');
+                if (value === 'value') {
+                    result.innerHTML = 'localStorage is working!';
+                    result.className = 'result success';
+                } else {
+                    result.innerHTML = 'localStorage not working correctly';
+                    result.className = 'result error';
+                }
+                localStorage.removeItem('test');
+            } catch (e) {
+                result.innerHTML = 'Error: ' + e.message;
+                result.className = 'result error';
+            }
+        }
+
+        function test3() {
+            const result = document.getElementById('result3');
+            try {
+                const testData = {
+                    date: new Date().toLocaleString(),
+                    content: document.getElementById('testEntry').value,
+                    mood: 5
+                };
+
+                let entries = JSON.parse(localStorage.getItem('scientificJournal')) || [];
+                entries.push(testData);
+                localStorage.setItem('scientificJournal', JSON.stringify(entries));
+
+                const saved = JSON.parse(localStorage.getItem('scientificJournal'));
+                result.innerHTML = 'Saved entries: ' + saved.length + '<br>Last entry: ' + JSON.stringify(saved[saved.length - 1]);
+                result.className = 'result success';
+            } catch (e) {
+                result.innerHTML = 'Error: ' + e.message;
+                result.className = 'result error';
+            }
+        }
+
+        function test4() {
+            const result = document.getElementById('result4');
+            result.innerHTML = 'Check console output above for any errors.';
+            result.className = 'result';
+        }
+
+        console.log('Test page loaded successfully');
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
