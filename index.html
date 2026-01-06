@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Psychological Log Journal | Wissenschaftliches Psychologisches Tagebuch</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="language-switcher">
+            <button id="lang-en" class="lang-btn active">EN</button>
+            <button id="lang-de" class="lang-btn">DE</button>
+        </div>
+        <h1 data-lang="en">Scientific Psychological Log Journal</h1>
+        <h1 data-lang="de" class="hidden">Wissenschaftliches Psychologisches Tagebuch</h1>
+        <p data-lang="en">Evidence-based psychological tracking and self-assessment tools</p>
+        <p data-lang="de" class="hidden">Evidenzbasierte psychologische Erfassung und Selbstbewertungsinstrumente</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#about" data-lang="en">About</a><a href="#about" data-lang="de" class="hidden">Über</a></li>
+            <li><a href="#experiments" data-lang="en">Evidence-Based Exercises</a><a href="#experiments" data-lang="de" class="hidden">Evidenzbasierte Übungen</a></li>
+            <li><a href="#journal" data-lang="en">Psychological Log</a><a href="#journal" data-lang="de" class="hidden">Psychologisches Tagebuch</a></li>
+            <li><a href="#reports" data-lang="en">Scientific Reports</a><a href="#reports" data-lang="de" class="hidden">Wissenschaftliche Berichte</a></li>
+            <li><a href="#resources" data-lang="en">Resources</a><a href="#resources" data-lang="de" class="hidden">Ressourcen</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="about">
+            <h2 data-lang="en">Evidence-Based Psychological Self-Assessment</h2>
+            <h2 data-lang="de" class="hidden">Evidenzbasierte psychologische Selbstbewertung</h2>
+            <p data-lang="en">This scientifically grounded psychological log journal incorporates validated psychological instruments and evidence-based practices for mental health tracking and self-reflection. Regular logging can enhance self-awareness and psychological well-being.</p>
+            <p data-lang="de" class="hidden">Dieses wissenschaftlich fundierte psychologische Tagebuch integriert validierte psychologische Instrumente und evidenzbasierte Praktiken zur Erfassung der psychischen Gesundheit und Selbstreflexion. Regelmäßiges Protokollieren kann das Selbstbewusstsein und das psychische Wohlbefinden verbessern.</p>
+            
+            <div class="scientific-note">
+                <h3 data-lang="en">Scientific Foundation</h3>
+                <h3 data-lang="de" class="hidden">Wissenschaftliche Grundlage</h3>
+                <p data-lang="en">This journal incorporates principles from Cognitive Behavioral Therapy (CBT), Dialectical Behavior Therapy (DBT), Acceptance and Commitment Therapy (ACT), and other evidence-based therapeutic approaches.</p>
+                <p data-lang="de" class="hidden">Dieses Tagebuch integriert Prinzipien aus der kognitiven Verhaltenstherapie (KVT), der dialektisch-behavioralen Therapie (DBT), der Akzeptanz-und-Kommittment-Therapie (ACT) und anderen evidenzbasierten therapeutischen Ansätzen.</p>
+            </div>
+        </section>
+
+        <section id="experiments">
+            <h2 data-lang="en">Evidence-Based Psychological Exercises</h2>
+            <h2 data-lang="de" class="hidden">Evidenzbasierte psychologische Übungen</h2>
+            <div class="experiment-grid">
+                <div class="experiment-card">
+                    <h3 data-lang="en">Cognitive Restructuring</h3>
+                    <h3 data-lang="de" class="hidden">Kognitive Umstrukturierung</h3>
+                    <p data-lang="en">Identify and reframe cognitive distortions using CBT techniques</p>
+                    <p data-lang="de" class="hidden">Identifiziere und umformuliere kognitive Verzerrungen mit KVT-Techniken</p>
+                    <button class="start-btn" data-experiment="cognitive" data-lang="en">Start Exercise</button>
+                    <button class="start-btn hidden" data-experiment="cognitive" data-lang="de">Übung starten</button>
+                </div>
+                <div class="experiment-card">
+                    <h3 data-lang="en">Emotional Regulation</h3>
+                    <h3 data-lang="de" class="hidden">Emotionsregulation</h3>
+                    <p data-lang="en">Understand and manage emotional responses using DBT skills</p>
+                    <p data-lang="de" class="hidden">Verstehe und manage emotionale Reaktionen mit DBT-Fähigkeiten</p>
+                    <button class="start-btn" data-experiment="emotions" data-lang="en">Start Exercise</button>
+                    <button class="start-btn hidden" data-experiment="emotions" data-lang="de">Übung starten</button>
+                </div>
+                <div class="experiment-card">
+                    <h3 data-lang="en">Behavioral Activation</h3>
+                    <h3 data-lang="de" class="hidden">Verhaltensaktivierung</h3>
+                    <p data-lang="en">Increase engagement in meaningful activities</p>
+                    <p data-lang="de" class="hidden">Erhöhe die Beteiligung an sinnvollen Aktivitäten</p>
+                    <button class="start-btn" data-experiment="behaviors" data-lang="en">Start Exercise</button>
+                    <button class="start-btn hidden" data-experiment="behaviors" data-lang="de">Übung starten</button>
+                </div>
+                <div class="experiment-card">
+                    <h3 data-lang="en">Core Belief Exploration</h3>
+                    <h3 data-lang="de" class="hidden">Kernüberzeugungen Erforschung</h3>
+                    <p data-lang="en">Discover and examine fundamental beliefs using schema therapy</p>
+                    <p data-lang="de" class="hidden">Entdecke und untersuche grundlegende Überzeugungen mit Schematherapie</p>
+                    <button class="start-btn" data-experiment="beliefs" data-lang="en">Start Exercise</button>
+                    <button class="start-btn hidden" data-experiment="beliefs" data-lang="de">Übung starten</button>
+                </div>
+                <div class="experiment-card">
+                    <h3 data-lang="en">Values Clarification</h3>
+                    <h3 data-lang="de" class="hidden">Werteklärung</h3>
+                    <p data-lang="en">Explore personal values using Acceptance and Commitment Therapy</p>
+                    <p data-lang="de" class="hidden">Erforsche persönliche Werte mit Akzeptanz-und-Kommittment-Therapie</p>
+                    <button class="start-btn" data-experiment="values" data-lang="en">Start Exercise</button>
+                    <button class="start-btn hidden" data-experiment="values" data-lang="de">Übung starten</button>
+                </div>
+                <div class="experiment-card">
+                    <h3 data-lang="en">Interpersonal Effectiveness</h3>
+                    <h3 data-lang="de" class="hidden">Zwischenmenschliche Effektivität</h3>
+                    <p data-lang="en">Improve relationship skills using DBT techniques</p>
+                    <p data-lang="de" class="hidden">Verbessere Beziehungsfähigkeiten mit DBT-Techniken</p>
+                    <button class="start-btn" data-experiment="relationships" data-lang="en">Start Exercise</button>
+                    <button class="start-btn hidden" data-experiment="relationships" data-lang="de">Übung starten</button>
+                </div>
+                <div class="experiment-card">
+                    <h3 data-lang="en">Stress & Coping Assessment</h3>
+                    <h3 data-lang="de" class="hidden">Stress & Bewältigungsbeurteilung</h3>
+                    <p data-lang="en">Identify stressors and evaluate coping strategies</p>
+                    <p data-lang="de" class="hidden">Identifiziere Stressfaktoren und bewerte Bewältigungsstrategien</p>
+                    <button class="start-btn" data-experiment="stress" data-lang="en">Start Exercise</button>
+                    <button class="start-btn hidden" data-experiment="stress" data-lang="de">Übung starten</button>
+                </div>
+                <div class="experiment-card">
+                    <h3 data-lang="en">Mindfulness Practice</h3>
+                    <h3 data-lang="de" class="hidden"> Achtsamkeitspraxis</h3>
+                    <p data-lang="en">Develop present-moment awareness using MBSR techniques</p>
+                    <p data-lang="de" class="hidden">Entwickle Achtsamkeit im gegenwärtigen Moment mit MBSR-Techniken</p>
+                    <button class="start-btn" data-experiment="mindfulness" data-lang="en">Start Exercise</button>
+                    <button class="start-btn hidden" data-experiment="mindfulness" data-lang="de">Übung starten</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="journal">
+            <h2 data-lang="en">Scientific Psychological Log</h2>
+            <h2 data-lang="de" class="hidden">Wissenschaftliches psychologisches Tagebuch</h2>
+            <p data-lang="en">Record psychological observations using validated assessment scales</p>
+            <p data-lang="de" class="hidden">Protokolliere psychologische Beobachtungen mit validierten Bewertungsskalen</p>
+            
+            <div class="journal-controls">
+                <label for="mood-rating" data-lang="en">Mood Scale (PANAS):</label>
+                <label for="mood-rating" data-lang="de" class="hidden">Stimmungsskala (PANAS):</label>
+                <input type="range" id="mood-rating" min="1" max="10" value="5">
+                <span id="mood-value">5</span>
+            </div>
+            
+            <div class="journal-controls">
+                <label for="emotion-select" data-lang="en">Primary Emotion (Ekman's Basic Emotions):</label>
+                <label for="emotion-select" data-lang="de" class="hidden">Hauptemotion (Ekman's Grundemotionen):</label>
+                <select id="emotion-select">
+                    <option value="" data-lang="en">Select an emotion</option>
+                    <option value="" data-lang="de" class="hidden">Wähle eine Emotion</option>
+                    <option value="joy" data-lang="en">Joy</option>
+                    <option value="joy" data-lang="de" class="hidden">Freude</option>
+                    <option value="sadness" data-lang="en">Sadness</option>
+                    <option value="sadness" data-lang="de" class="hidden">Traurigkeit</option>
+                    <option value="anger" data-lang="en">Anger</option>
+                    <option value="anger" data-lang="de" class="hidden">Wut</option>
+                    <option value="fear" data-lang="en">Fear</option>
+                    <option value="fear" data-lang="de" class="hidden">Angst</option>
+                    <option value="surprise" data-lang="en">Surprise</option>
+                    <option value="surprise" data-lang="de" class="hidden">Überraschung</option>
+                    <option value="disgust" data-lang="en">Disgust</option>
+                    <option value="disgust" data-lang="de" class="hidden">Ekel</option>
+                    <option value="anxiety" data-lang="en">Anxiety</option>
+                    <option value="anxiety" data-lang="de" class="hidden">Angst</option>
+                    <option value="gratitude" data-lang="en">Gratitude</option>
+                    <option value="gratitude" data-lang="de" class="hidden">Dankbarkeit</option>
+                    <option value="contentment" data-lang="en">Contentment</option>
+                    <option value="contentment" data-lang="de" class="hidden">Zufriedenheit</option>
+                    <option value="excitement" data-lang="en">Excitement</option>
+                    <option value="excitement" data-lang="de" class="hidden">Begeisterung</option>
+                    <option value="confusion" data-lang="en">Confusion</option>
+                    <option value="confusion" data-lang="de" class="hidden">Verwirrung</option>
+                    <option value="disappointment" data-lang="en">Disappointment</option>
+                    <option value="disappointment" data-lang="de" class="hidden">Enttäuschung</option>
+                </select>
+            </div>
+            
+            <div class="journal-controls">
+                <label for="anxiety-rating" data-lang="en">Anxiety Level (GAD-7):</label>
+                <label for="anxiety-rating" data-lang="de" class="hidden">Angstniveau (GAD-7):</label>
+                <input type="range" id="anxiety-rating" min="0" max="10" value="0">
+                <span id="anxiety-value">0</span>
+            </div>
+            
+            <div class="journal-controls">
+                <label for="depression-rating" data-lang="en">Depression Level (PHQ-9):</label>
+                <label for="depression-rating" data-lang="de" class="hidden">Depressionsniveau (PHQ-9):</label>
+                <input type="range" id="depression-rating" min="0" max="10" value="0">
+                <span id="depression-value">0</span>
+            </div>
+            
+            <div class="journal-controls">
+                <label for="stress-rating" data-lang="en">Stress Level (PSS):</label>
+                <label for="stress-rating" data-lang="de" class="hidden">Stressniveau (PSS):</label>
+                <input type="range" id="stress-rating" min="0" max="10" value="5">
+                <span id="stress-value">5</span>
+            </div>
+            
+            <div class="journal-controls">
+                <label for="trigger-input" data-lang="en">Trigger/Event:</label>
+                <label for="trigger-input" data-lang="de" class="hidden">Auslöser/Ereignis:</label>
+                <input type="text" id="trigger-input" placeholder="What happened?" data-lang="en">
+                <input type="text" id="trigger-input" placeholder="Was ist passiert?" data-lang="de" class="hidden">
+            </div>
+            
+            <div class="journal-controls">
+                <label for="thoughts-input" data-lang="en">Automatic Thoughts:</label>
+                <label for="thoughts-input" data-lang="de" class="hidden">Automatische Gedanken:</label>
+                <input type="text" id="thoughts-input" placeholder="What thoughts went through your mind?" data-lang="en">
+                <input type="text" id="thoughts-input" placeholder="Welche Gedanken gingen dir durch den Kopf?" data-lang="de" class="hidden">
+            </div>
+            
+            <div class="journal-controls">
+                <label for="coping-strategy" data-lang="en">Coping Strategy Used:</label>
+                <label for="coping-strategy" data-lang="de" class="hidden">Verwendete Bewältigungsstrategie:</label>
+                <select id="coping-strategy">
+                    <option value="" data-lang="en">Select a coping strategy</option>
+                    <option value="" data-lang="de" class="hidden">Wähle eine Bewältigungsstrategie</option>
+                    <option value="problem-solving" data-lang="en">Problem-Solving</option>
+                    <option value="problem-solving" data-lang="de" class="hidden">Problemlösung</option>
+                    <option value="mindfulness" data-lang="en">Mindfulness</option>
+                    <option value="mindfulness" data-lang="de" class="hidden">Achtsamkeit</option>
+                    <option value="distraction" data-lang="en">Distraction</option>
+                    <option value="distraction" data-lang="de" class="hidden">Ablenkung</option>
+                    <option value="exercise" data-lang="en">Exercise</option>
+                    <option value="exercise" data-lang="de" class="hidden">Bewegung</option>
+                    <option value="social-support" data-lang="en">Social Support</option>
+                    <option value="social-support" data-lang="de" class="hidden">Soziale Unterstützung</option>
+                    <option value="avoidance" data-lang="en">Avoidance</option>
+                    <option value="avoidance" data-lang="de" class="hidden">Vermeidung</option>
+                    <option value="substance-use" data-lang="en">Substance Use</option>
+                    <option value="substance-use" data-lang="de" class="hidden">Substanzgebrauch</option>
+                    <option value="other" data-lang="en">Other</option>
+                    <option value="other" data-lang="de" class="hidden">Andere</option>
+                </select>
+            </div>
+            
+            <textarea id="journal-entry" placeholder="Describe your thoughts, feelings, and reactions..." data-lang="en"></textarea>
+            <textarea id="journal-entry" placeholder="Beschreibe deine Gedanken, Gefühle und Reaktionen..." data-lang="de" class="hidden"></textarea>
+            <button id="save-journal" data-lang="en">Log Entry</button>
+            <button id="save-journal" data-lang="de" class="hidden">Eintrag protokollieren</button>
+            <div id="journal-entries"></div>
+        </section>
+
+        <section id="reports">
+            <h2 data-lang="en">Scientific Psychological Reports</h2>
+            <h2 data-lang="de" class="hidden">Wissenschaftliche psychologische Berichte</h2>
+            <p data-lang="en">Generate, save, and review comprehensive psychological reports with validated assessment data</p>
+            <p data-lang="de" class="hidden">Erstelle, speichere und überprüfe umfassende psychologische Berichte mit validierten Bewertungsdaten</p>
+            
+            <div class="report-controls">
+                <button id="generate-report" data-lang="en">Generate Report</button>
+                <button id="generate-report" data-lang="de" class="hidden">Bericht erstellen</button>
+                <button id="save-report" data-lang="en">Save Report</button>
+                <button id="save-report" data-lang="de" class="hidden">Bericht speichern</button>
+                <input type="file" id="load-report" accept=".json" style="display: none;">
+                <button id="load-report-btn" data-lang="en">Load Report</button>
+                <button id="load-report-btn" data-lang="de" class="hidden">Bericht laden</button>
+            </div>
+            
+            <div id="report-container">
+                <div id="report-content" class="report-content">
+                    <p data-lang="en">Your scientific psychological report will appear here after you generate it.</p>
+                    <p data-lang="de" class="hidden">Dein wissenschaftlicher psychologischer Bericht wird hier erscheinen, nachdem du ihn erstellt hast.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="resources">
+            <h2 data-lang="en">Scientific Resources</h2>
+            <h2 data-lang="de" class="hidden">Wissenschaftliche Ressourcen</h2>
+            <p data-lang="en">Evidence-based tools and readings for psychological well-being</p>
+            <p data-lang="de" class="hidden">Evidenzbasierte Werkzeuge und Literatur für psychisches Wohlbefinden</p>
+            <ul>
+                <li><a href="#" data-lang="en">Validated Psychological Scales</a><a href="#" data-lang="de" class="hidden">Validierte psychologische Skalen</a></li>
+                <li><a href="#" data-lang="en">Therapeutic Techniques Manual</a><a href="#" data-lang="de" class="hidden">Therapeutische Techniken Anleitung</a></li>
+                <li><a href="#" data-lang="en">Research-Based Exercises</a><a href="#" data-lang="de" class="hidden">Forschungsbasierte Übungen</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p data-lang="en">Your evidence-based psychological self-exploration journey</p>
+        <p data-lang="de" class="hidden">Deine evidenzbasierte psychologische Selbstforschungsreise</p>
+    </footer>
+
+    <!-- Exercise Modals -->
+    <div id="exercise-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="exercise-container"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
