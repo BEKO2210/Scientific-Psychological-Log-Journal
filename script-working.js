@@ -296,104 +296,74 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadExercise(type) {
         let html = '<h2>Exercise: ' + type + '</h2>';
         html += '<div class="exercise-content">';
-
+        
         // Simple questions for ANY exercise
         for (let i = 1; i <= 5; i++) {
             html += '<div class="exercise-question">';
             html += '<h3>Question ' + i + '</h3>';
-            html += '<textarea class="exercise-response" data-question="' + i + '" placeholder="Your answer..." required></textarea>';
+            html += '<textarea class="exercise-response" data-question="' + i + '" placeholder="Your answer..."></textarea>';
             html += '</div>';
         }
-
-        html += '<button class="exercise-btn" id="finish-exercise-btn">Finish Exercise</button>';
+        
+        html += '<button class="exercise-btn" onclick="window.finishExercise(\'' + type + '\')">Finish Exercise</button>';
         html += '</div>';
 
         elements.exerciseContainer.innerHTML = html;
-
-        // Add event listener to the button after it's created
-        const finishBtn = document.getElementById('finish-exercise-btn');
-        if (finishBtn) {
-            finishBtn.addEventListener('click', function() {
-                console.log('🔘 Finish button clicked!');
-                finishExercise(type);
-            });
-            console.log('✓ Finish button listener added for:', type);
-        }
     }
 
     // ========================================================================
-    // EXERCISES - FINISH
+    // EXERCISES - FINISH (GLOBAL FUNCTION)
     // ========================================================================
-
-    function finishExercise(type) {
-        console.log('📝 Finishing exercise:', type);
+    
+    window.finishExercise = function(type) {
+        console.log('✓ Finishing exercise:', type);
 
         const responses = [];
         const textareas = elements.exerciseContainer.querySelectorAll('.exercise-response');
 
-        console.log('Found textareas:', textareas.length);
-
-        // Collect all answers
-        textareas.forEach((ta, index) => {
+        textareas.forEach(ta => {
             const answer = ta.value.trim();
-            console.log('Question ' + (index + 1) + ':', answer ? 'FILLED' : 'EMPTY');
-
             if (answer) {
                 responses.push({
-                    question: ta.getAttribute('data-question') || (index + 1),
+                    question: ta.getAttribute('data-question'),
                     answer: sanitizeHTML(answer)
                 });
             }
         });
 
-        console.log('Total responses:', responses.length);
-
-        // Validation
         if (responses.length === 0) {
-            console.warn('⚠️ No responses provided');
             alert(getTranslation(currentLang).fillQuestion);
             return;
         }
 
-        // Save exercise
         try {
             const exercise = {
                 id: Date.now(),
                 type: type,
                 date: new Date().toLocaleString(),
-                responses: responses,
-                totalQuestions: textareas.length,
-                answeredQuestions: responses.length
+                responses: responses
             };
 
-            console.log('💾 Saving exercise:', exercise);
+            console.log('Exercise data:', exercise);
 
-            // Get existing exercises
+            // Save
             let exercises = JSON.parse(localStorage.getItem('psychologicalExercises') || '[]');
             exercises.push(exercise);
-
-            // Save to localStorage
             localStorage.setItem('psychologicalExercises', JSON.stringify(exercises));
 
-            console.log('✅ Saved! Total exercises:', exercises.length);
+            console.log('✓ Saved! Total exercises:', exercises.length);
 
             // Close modal
-            if (elements.modal) {
-                elements.modal.style.display = 'none';
-            }
+            elements.modal.style.display = 'none';
 
-            // Success message
-            const message = currentLang === 'en'
-                ? 'Exercise completed and saved!\nAnswered: ' + responses.length + ' of ' + textareas.length + ' questions'
-                : 'Übung abgeschlossen und gespeichert!\nBeantwortet: ' + responses.length + ' von ' + textareas.length + ' Fragen';
-
-            alert(message);
+            // Success
+            alert(getTranslation(currentLang).exerciseSaved);
 
         } catch (error) {
             console.error('❌ Error saving exercise:', error);
             alert('Error: ' + error.message);
         }
-    }
+    };
 
     // ========================================================================
     // REPORTS - GENERATE

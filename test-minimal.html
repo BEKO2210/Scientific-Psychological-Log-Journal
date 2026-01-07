@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4a6fa5;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px 0;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="range"] {
+            width: 200px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 2px solid #d0e0f0;
+            border-radius: 5px;
+            font-family: Arial;
+            font-size: 14px;
+        }
+        textarea:focus {
+            border-color: #4a6fa5;
+            outline: none;
+        }
+        button {
+            background: #4a6fa5;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background: #3a5a80;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        #journal-entries {
+            margin-top: 30px;
+        }
+        .debug {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 MINIMAL TEST - Journal Entry</h1>
+
+        <p><strong>Dieser Test prüft nur die Grundfunktion: Text speichern und anzeigen</strong></p>
+
+        <label for="mood-rating">Mood:</label>
+        <input type="range" id="mood-rating" min="1" max="10" value="5">
+        <span id="mood-value">5</span>
+
+        <label for="journal-entry">Dein Eintrag:</label>
+        <textarea id="journal-entry" placeholder="Schreibe hier deinen Eintrag..."></textarea>
+
+        <button id="save-journal">💾 SPEICHERN</button>
+        <button onclick="clearAll()" style="background:#cc0000;">🗑️ ALLE LÖSCHEN</button>
+
+        <div id="journal-entries"></div>
+
+        <div class="debug" id="console"></div>
+    </div>
+
+    <script>
+        // Console redirect
+        const consoleDiv = document.getElementById('console');
+        const originalLog = console.log;
+        const originalError = console.error;
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            consoleDiv.innerHTML += '<div>✓ ' + args.join(' ') + '</div>';
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            consoleDiv.innerHTML += '<div style="color:#f00;">✗ ' + args.join(' ') + '</div>';
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        };
+
+        // Mood slider
+        document.getElementById('mood-rating').addEventListener('input', function() {
+            document.getElementById('mood-value').textContent = this.value;
+        });
+
+        // Clear all
+        function clearAll() {
+            if (confirm('Wirklich ALLE Einträge löschen?')) {
+                localStorage.removeItem('scientificJournal');
+                location.reload();
+            }
+        }
+    </script>
+
+    <!-- LOAD THE MINIMAL SCRIPT -->
+    <script src="script-minimal.js"></script>
+</body>
+</html>
