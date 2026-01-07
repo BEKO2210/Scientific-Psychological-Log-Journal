@@ -294,23 +294,120 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function loadExercise(type) {
-        let html = '<h2>Exercise: ' + type + '</h2>';
+        // Exercise questions database
+        const exercises = {
+            cognitive: {
+                title: { en: 'Cognitive Restructuring (CBT)', de: 'Kognitive Umstrukturierung (KVT)' },
+                questions: [
+                    { en: 'Describe the situation that triggered your emotional response', de: 'Beschreibe die Situation, die deine emotionale Reaktion ausgelöst hat' },
+                    { en: 'What emotions did you experience? Rate their intensity (0-100%)', de: 'Welche Emotionen hast du erlebt? Bewerte ihre Intensität (0-100%)' },
+                    { en: 'What automatic thoughts went through your mind?', de: 'Welche automatischen Gedanken gingen dir durch den Kopf?' },
+                    { en: 'Identify any cognitive distortions (e.g., all-or-nothing thinking, catastrophizing)', de: 'Identifiziere kognitive Verzerrungen (z.B. Schwarz-Weiß-Denken, Katastrophisieren)' },
+                    { en: 'What evidence supports or contradicts your thoughts?', de: 'Welche Beweise unterstützen oder widersprechen deinen Gedanken?' },
+                    { en: 'What would be a more balanced, realistic thought?', de: 'Was wäre ein ausgewogenerer, realistischerer Gedanke?' }
+                ]
+            },
+            emotions: {
+                title: { en: 'Emotional Regulation (DBT)', de: 'Emotionsregulation (DBT)' },
+                questions: [
+                    { en: 'How is your physical state affecting your emotions?', de: 'Wie beeinflusst dein körperlicher Zustand deine Emotionen?' },
+                    { en: 'What factors are increasing your emotional vulnerability?', de: 'Welche Faktoren erhöhen deine emotionale Verletzlichkeit?' },
+                    { en: 'Observe your emotions without judgment. What are you feeling?', de: 'Beobachte deine Emotionen ohne Bewertung. Was fühlst du?' },
+                    { en: 'What would be the opposite action to your emotional urge?', de: 'Was wäre die gegenteilige Handlung zu deinem emotionalen Drang?' },
+                    { en: 'What activities could you do to build positive emotions?', de: 'Welche Aktivitäten könntest du unternehmen, um positive Emotionen aufzubauen?' }
+                ]
+            },
+            behaviors: {
+                title: { en: 'Behavioral Activation', de: 'Verhaltensaktivierung' },
+                questions: [
+                    { en: 'List activities you enjoy or think you might enjoy', de: 'Liste Aktivitäten auf, die du genießt oder genießen könntest' },
+                    { en: 'Schedule a pleasant activity. Be specific about when, where, and how', de: 'Plane eine angenehme Aktivität. Sei spezifisch über wann, wo und wie' },
+                    { en: 'What activities align with your core values?', de: 'Welche Aktivitäten stimmen mit deinen Kernwerten überein?' },
+                    { en: 'What barriers prevent you from engaging in pleasant activities?', de: 'Welche Barrieren verhindern die Teilnahme an angenehmen Aktivitäten?' },
+                    { en: 'How can you overcome these barriers? Create an action plan', de: 'Wie kannst du diese Barrieren überwinden? Erstelle einen Aktionsplan' }
+                ]
+            },
+            beliefs: {
+                title: { en: 'Core Belief Exploration', de: 'Kernüberzeugungen Erforschung' },
+                questions: [
+                    { en: 'What early memories shaped your core beliefs?', de: 'Welche frühen Erinnerungen prägten deine Kernüberzeugungen?' },
+                    { en: 'What are your core beliefs about yourself?', de: 'Was sind deine Kernüberzeugungen über dich selbst?' },
+                    { en: 'What are your core beliefs about others?', de: 'Was sind deine Kernüberzeugungen über andere?' },
+                    { en: 'What situations trigger your core beliefs?', de: 'Welche Situationen lösen deine Kernüberzeugungen aus?' },
+                    { en: 'How do these beliefs affect your behavior?', de: 'Wie beeinflussen diese Überzeugungen dein Verhalten?' }
+                ]
+            },
+            values: {
+                title: { en: 'Values Clarification (ACT)', de: 'Werteklärung (AKT)' },
+                questions: [
+                    { en: 'What matters most in different life domains (family, work, health)?', de: 'Was ist in verschiedenen Lebensbereichen am wichtigsten (Familie, Arbeit, Gesundheit)?' },
+                    { en: 'Identify your core values. What do you want to stand for?', de: 'Identifiziere deine Kernwerte. Wofür willst du stehen?' },
+                    { en: 'Distinguish between values (directions) and goals (outcomes)', de: 'Unterscheide zwischen Werten (Richtungen) und Zielen (Ergebnisse)' },
+                    { en: 'What actions can you take today that align with your values?', de: 'Welche Handlungen kannst du heute unternehmen, die mit deinen Werten übereinstimmen?' },
+                    { en: 'What prevents you from living according to your values?', de: 'Was hindert dich daran, nach deinen Werten zu leben?' }
+                ]
+            },
+            relationships: {
+                title: { en: 'Interpersonal Effectiveness (DBT)', de: 'Zwischenmenschliche Effektivität (DBT)' },
+                questions: [
+                    { en: 'Describe a recent interpersonal challenge', de: 'Beschreibe eine aktuelle zwischenmenschliche Herausforderung' },
+                    { en: 'What is your objective in this relationship situation?', de: 'Was ist dein Ziel in dieser Beziehungssituation?' },
+                    { en: 'How can you be effective while maintaining self-respect?', de: 'Wie kannst du effektiv sein und gleichzeitig Selbstrespekt bewahren?' },
+                    { en: 'Practice assertiveness: What do you need to say?', de: 'Übe Durchsetzungsvermögen: Was musst du sagen?' },
+                    { en: 'How can you validate the other person while expressing your needs?', de: 'Wie kannst du die andere Person validieren und deine Bedürfnisse ausdrücken?' }
+                ]
+            },
+            stress: {
+                title: { en: 'Stress & Coping Assessment', de: 'Stress & Bewältigungsbeurteilung' },
+                questions: [
+                    { en: 'Identify your current stressors', de: 'Identifiziere deine aktuellen Stressfaktoren' },
+                    { en: 'Rate your stress level (0-10) and describe physical symptoms', de: 'Bewerte dein Stressniveau (0-10) und beschreibe körperliche Symptome' },
+                    { en: 'What coping strategies have you used?', de: 'Welche Bewältigungsstrategien hast du verwendet?' },
+                    { en: 'Which strategies were helpful vs. unhelpful?', de: 'Welche Strategien waren hilfreich vs. nicht hilfreich?' },
+                    { en: 'What new coping strategies could you try?', de: 'Welche neuen Bewältigungsstrategien könntest du versuchen?' }
+                ]
+            },
+            mindfulness: {
+                title: { en: 'Mindfulness Practice (MBSR)', de: 'Achtsamkeitspraxis (MBSR)' },
+                questions: [
+                    { en: 'Describe your experience with body scan meditation', de: 'Beschreibe deine Erfahrung mit Körperabtastungsmeditation' },
+                    { en: 'How did focusing on your breath affect your mind?', de: 'Wie hat die Konzentration auf deinen Atem deinen Geist beeinflusst?' },
+                    { en: 'Practice observing thoughts without judgment. What did you notice?', de: 'Übe das Beobachten von Gedanken ohne Bewertung. Was hast du bemerkt?' },
+                    { en: 'Describe mindful activities you practiced today', de: 'Beschreibe achtsame Aktivitäten, die du heute geübt hast' },
+                    { en: 'How did mindfulness affect your stress and well-being?', de: 'Wie hat Achtsamkeit dein Stress und Wohlbefinden beeinflusst?' }
+                ]
+            }
+        };
+
+        // Get exercise or use default
+        const exercise = exercises[type] || {
+            title: { en: 'Exercise: ' + type, de: 'Übung: ' + type },
+            questions: [
+                { en: 'Question 1', de: 'Frage 1' },
+                { en: 'Question 2', de: 'Frage 2' },
+                { en: 'Question 3', de: 'Frage 3' }
+            ]
+        };
+
+        // Build HTML
+        let html = '<h2>' + exercise.title[currentLang] + '</h2>';
         html += '<div class="exercise-content">';
 
-        // Simple questions for ANY exercise
-        for (let i = 1; i <= 5; i++) {
+        exercise.questions.forEach((q, i) => {
             html += '<div class="exercise-question">';
-            html += '<h3>Question ' + i + '</h3>';
-            html += '<textarea class="exercise-response" data-question="' + i + '" placeholder="Your answer..." required></textarea>';
+            html += '<h3>' + (i + 1) + '. ' + q[currentLang] + '</h3>';
+            html += '<textarea class="exercise-response" data-question="' + (i + 1) + '" placeholder="' + (currentLang === 'en' ? 'Your answer...' : 'Deine Antwort...') + '"></textarea>';
             html += '</div>';
-        }
+        });
 
-        html += '<button class="exercise-btn" id="finish-exercise-btn">Finish Exercise</button>';
+        html += '<button class="exercise-btn" id="finish-exercise-btn">';
+        html += currentLang === 'en' ? 'Finish Exercise' : 'Übung abschließen';
+        html += '</button>';
         html += '</div>';
 
         elements.exerciseContainer.innerHTML = html;
 
-        // Add event listener to the button after it's created
+        // Add event listener
         const finishBtn = document.getElementById('finish-exercise-btn');
         if (finishBtn) {
             finishBtn.addEventListener('click', function() {
