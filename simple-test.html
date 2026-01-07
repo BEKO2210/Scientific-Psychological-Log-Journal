@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Test - Debugging</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .section { background: #f0f0f0; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        button { padding: 10px 20px; margin: 5px; background: #4a6fa5; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #3a5a80; }
+        input, textarea, select { padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; }
+        textarea { width: 100%; height: 100px; }
+        .log { background: #fff; padding: 10px; margin: 10px 0; border-left: 4px solid #4a6fa5; }
+        .error { background: #ffebee; border-left-color: #f44336; }
+        .success { background: #e8f5e9; border-left-color: #4caf50; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Kompletter Debug Test</h1>
+
+    <div class="section">
+        <h2>Test 1: LocalStorage</h2>
+        <button onclick="testLocalStorage()">Test localStorage</button>
+        <div id="localStorage-result"></div>
+    </div>
+
+    <div class="section">
+        <h2>Test 2: Eintrag speichern (Simple)</h2>
+        <input type="text" id="simple-entry" placeholder="Text eingeben" style="width: 300px;">
+        <button onclick="saveSimpleEntry()">Speichern</button>
+        <button onclick="loadSimpleEntries()">Laden</button>
+        <button onclick="clearSimpleEntries()">Alles löschen</button>
+        <div id="simple-entries"></div>
+    </div>
+
+    <div class="section">
+        <h2>Test 3: Journal Entry (Komplett)</h2>
+        <div>
+            <label>Mood (1-10):</label>
+            <input type="range" id="test-mood" min="1" max="10" value="5">
+            <span id="mood-display">5</span>
+        </div>
+        <div>
+            <label>Emotion:</label>
+            <select id="test-emotion">
+                <option value="">Select</option>
+                <option value="joy">Joy</option>
+                <option value="sadness">Sadness</option>
+                <option value="anger">Anger</option>
+            </select>
+        </div>
+        <div>
+            <label>Entry:</label>
+            <textarea id="test-entry" placeholder="Your entry..."></textarea>
+        </div>
+        <button onclick="saveJournalEntry()">Save Journal Entry</button>
+        <button onclick="loadJournalEntries()">Load Entries</button>
+        <button onclick="clearJournalEntries()">Clear All</button>
+        <div id="journal-display"></div>
+    </div>
+
+    <div class="section">
+        <h2>Console Log</h2>
+        <div id="console-log" style="background: #000; color: #0f0; padding: 10px; font-family: monospace; max-height: 300px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        // Console override
+        const consoleDiv = document.getElementById('console-log');
+        const originalLog = console.log;
+        const originalError = console.error;
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            consoleDiv.innerHTML += '<div>✓ ' + args.join(' ') + '</div>';
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            consoleDiv.innerHTML += '<div style="color: #f00;">✗ ERROR: ' + args.join(' ') + '</div>';
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        };
+
+        console.log('Debug-Seite geladen');
+
+        // Mood slider
+        document.getElementById('test-mood').addEventListener('input', function() {
+            document.getElementById('mood-display').textContent = this.value;
+        });
+
+        // Test 1: localStorage
+        function testLocalStorage() {
+            const result = document.getElementById('localStorage-result');
+            try {
+                console.log('Teste localStorage...');
+                localStorage.setItem('test-key', 'test-value');
+                const value = localStorage.getItem('test-key');
+                localStorage.removeItem('test-key');
+
+                if (value === 'test-value') {
+                    result.innerHTML = '<div class="log success">✓ localStorage funktioniert!</div>';
+                    console.log('localStorage: OK');
+                } else {
+                    result.innerHTML = '<div class="log error">✗ localStorage Fehler</div>';
+                    console.error('localStorage gibt falschen Wert zurück');
+                }
+            } catch (e) {
+                result.innerHTML = '<div class="log error">✗ Fehler: ' + e.message + '</div>';
+                console.error('localStorage Fehler:', e);
+            }
+        }
+
+        // Test 2: Simple Entry
+        function saveSimpleEntry() {
+            try {
+                const input = document.getElementById('simple-entry');
+                const text = input.value.trim();
+
+                if (!text) {
+                    alert('Bitte Text eingeben!');
+                    return;
+                }
+
+                console.log('Speichere einfachen Eintrag:', text);
+
+                let entries = JSON.parse(localStorage.getItem('simpleEntries') || '[]');
+                console.log('Aktuelle Einträge:', entries.length);
+
+                entries.push({
+                    text: text,
+                    date: new Date().toLocaleString()
+                });
+
+                localStorage.setItem('simpleEntries', JSON.stringify(entries));
+                console.log('Gespeichert! Neue Anzahl:', entries.length);
+
+                input.value = '';
+                loadSimpleEntries();
+                alert('✓ Eintrag gespeichert!');
+            } catch (e) {
+                console.error('Fehler beim Speichern:', e);
+                alert('✗ Fehler: ' + e.message);
+            }
+        }
+
+        function loadSimpleEntries() {
+            try {
+                const div = document.getElementById('simple-entries');
+                const entries = JSON.parse(localStorage.getItem('simpleEntries') || '[]');
+
+                console.log('Lade Einträge:', entries.length);
+
+                if (entries.length === 0) {
+                    div.innerHTML = '<div class="log">Keine Einträge vorhanden</div>';
+                    return;
+                }
+
+                div.innerHTML = entries.map((entry, i) =>
+                    `<div class="log">
+                        <strong>#${i+1}</strong> - ${entry.date}<br>
+                        ${entry.text}
+                    </div>`
+                ).join('');
+            } catch (e) {
+                console.error('Fehler beim Laden:', e);
+            }
+        }
+
+        function clearSimpleEntries() {
+            if (confirm('Wirklich alle Einträge löschen?')) {
+                localStorage.removeItem('simpleEntries');
+                loadSimpleEntries();
+                console.log('Alle einfachen Einträge gelöscht');
+            }
+        }
+
+        // Test 3: Full Journal Entry
+        function saveJournalEntry() {
+            try {
+                const mood = document.getElementById('test-mood').value;
+                const emotion = document.getElementById('test-emotion').value;
+                const entry = document.getElementById('test-entry').value.trim();
+
+                console.log('Speichere Journal Entry...');
+                console.log('- Mood:', mood);
+                console.log('- Emotion:', emotion);
+                console.log('- Entry:', entry);
+
+                if (!entry) {
+                    alert('Bitte Eintrag ausfüllen!');
+                    return;
+                }
+
+                const journalEntry = {
+                    date: new Date().toLocaleString(),
+                    mood: parseInt(mood),
+                    emotion: emotion,
+                    content: entry
+                };
+
+                let entries = JSON.parse(localStorage.getItem('scientificJournal') || '[]');
+                console.log('Vorhandene Einträge:', entries.length);
+
+                entries.push(journalEntry);
+                localStorage.setItem('scientificJournal', JSON.stringify(entries));
+
+                console.log('✓ Gespeichert! Neue Anzahl:', entries.length);
+
+                // Clear form
+                document.getElementById('test-entry').value = '';
+                document.getElementById('test-emotion').value = '';
+
+                loadJournalEntries();
+                alert('✓ Journal Entry gespeichert!');
+            } catch (e) {
+                console.error('Fehler beim Speichern:', e);
+                alert('✗ Fehler: ' + e.message);
+            }
+        }
+
+        function loadJournalEntries() {
+            try {
+                const div = document.getElementById('journal-display');
+                const entries = JSON.parse(localStorage.getItem('scientificJournal') || '[]');
+
+                console.log('Lade Journal Entries:', entries.length);
+
+                if (entries.length === 0) {
+                    div.innerHTML = '<div class="log">Keine Journal Entries vorhanden</div>';
+                    return;
+                }
+
+                div.innerHTML = '<h3>Gespeicherte Einträge: ' + entries.length + '</h3>' +
+                    entries.map((entry, i) =>
+                        `<div class="log success">
+                            <strong>#${i+1}</strong> - ${entry.date}<br>
+                            Mood: ${entry.mood}/10 | Emotion: ${entry.emotion || 'none'}<br>
+                            ${entry.content}
+                        </div>`
+                    ).reverse().join('');
+            } catch (e) {
+                console.error('Fehler beim Laden:', e);
+            }
+        }
+
+        function clearJournalEntries() {
+            if (confirm('Wirklich alle Journal Entries löschen?')) {
+                localStorage.removeItem('scientificJournal');
+                loadJournalEntries();
+                console.log('Alle Journal Entries gelöscht');
+            }
+        }
+
+        // Load on start
+        window.addEventListener('load', function() {
+            console.log('Seite vollständig geladen');
+            loadSimpleEntries();
+            loadJournalEntries();
+        });
+    </script>
+</body>
+</html>
