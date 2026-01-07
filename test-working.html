@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST - New Working Script</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .test-banner {
+            background: #ff6b6b;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .debug-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #000;
+            color: #0f0;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 150px;
+            overflow-y: auto;
+            border-top: 3px solid #0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-banner">
+        🧪 TEST VERSION - NEUES SCRIPT - script-working.js
+    </div>
+
+    <header>
+        <div class="language-switcher">
+            <button id="lang-en" class="lang-btn active">EN</button>
+            <button id="lang-de" class="lang-btn">DE</button>
+        </div>
+        <h1>TEST: Neues funktionierendes Script</h1>
+    </header>
+
+    <main>
+        <section id="journal">
+            <h2>📝 Journal Entry Test</h2>
+
+            <div class="journal-controls">
+                <label for="mood-rating">Mood:</label>
+                <input type="range" id="mood-rating" min="1" max="10" value="5">
+                <span id="mood-value">5</span>
+            </div>
+
+            <div class="journal-controls">
+                <label for="emotion-select">Emotion:</label>
+                <select id="emotion-select">
+                    <option value="">Select</option>
+                    <option value="joy">Joy</option>
+                    <option value="sadness">Sadness</option>
+                    <option value="anger">Anger</option>
+                </select>
+            </div>
+
+            <div class="journal-controls">
+                <label for="anxiety-rating">Anxiety:</label>
+                <input type="range" id="anxiety-rating" min="0" max="10" value="0">
+                <span id="anxiety-value">0</span>
+            </div>
+
+            <div class="journal-controls">
+                <label for="depression-rating">Depression:</label>
+                <input type="range" id="depression-rating" min="0" max="10" value="0">
+                <span id="depression-value">0</span>
+            </div>
+
+            <div class="journal-controls">
+                <label for="stress-rating">Stress:</label>
+                <input type="range" id="stress-rating" min="0" max="10" value="5">
+                <span id="stress-value">5</span>
+            </div>
+
+            <div class="journal-controls">
+                <label for="trigger-input">Trigger:</label>
+                <input type="text" id="trigger-input" placeholder="What happened?">
+            </div>
+
+            <div class="journal-controls">
+                <label for="thoughts-input">Thoughts:</label>
+                <input type="text" id="thoughts-input" placeholder="Your thoughts?">
+            </div>
+
+            <div class="journal-controls">
+                <label for="coping-strategy">Coping:</label>
+                <select id="coping-strategy">
+                    <option value="">Select</option>
+                    <option value="mindfulness">Mindfulness</option>
+                    <option value="exercise">Exercise</option>
+                    <option value="social-support">Social Support</option>
+                </select>
+            </div>
+
+            <textarea id="journal-entry" placeholder="Your entry..."></textarea>
+            <button id="save-journal">💾 SAVE ENTRY</button>
+
+            <div id="journal-entries"></div>
+        </section>
+
+        <section id="experiments" style="background: #fff3cd; padding: 20px; margin: 20px 0; border-radius: 8px;">
+            <h2>🎯 Exercise Test</h2>
+            <div class="experiment-grid">
+                <div class="experiment-card">
+                    <h3>Test Exercise 1</h3>
+                    <p>Cognitive Restructuring</p>
+                    <button class="start-btn" data-experiment="cognitive">Start Exercise</button>
+                </div>
+                <div class="experiment-card">
+                    <h3>Test Exercise 2</h3>
+                    <p>Emotional Regulation</p>
+                    <button class="start-btn" data-experiment="emotions">Start Exercise</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="reports">
+            <h2>📊 Report Test</h2>
+            <button id="generate-report" style="background: #28a745;">Generate Report</button>
+            <button id="save-report" style="background: #007bff;">Save Report</button>
+            <div id="report-content"></div>
+        </section>
+    </main>
+
+    <!-- Exercise Modal -->
+    <div id="exercise-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="exercise-container"></div>
+        </div>
+    </div>
+
+    <!-- Debug Panel -->
+    <div class="debug-panel" id="debug"></div>
+
+    <script>
+        // Console override for debug panel
+        const debugDiv = document.getElementById('debug');
+        const originalLog = console.log;
+        const originalError = console.error;
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            debugDiv.innerHTML += '<div>✓ ' + args.join(' ') + '</div>';
+            debugDiv.scrollTop = debugDiv.scrollHeight;
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            debugDiv.innerHTML += '<div style="color:#f00;">✗ ' + args.join(' ') + '</div>';
+            debugDiv.scrollTop = debugDiv.scrollHeight;
+        };
+    </script>
+
+    <!-- LOAD NEW SCRIPT -->
+    <script src="script-working.js"></script>
+</body>
+</html>
